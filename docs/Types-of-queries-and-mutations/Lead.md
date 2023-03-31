@@ -1,34 +1,34 @@
 ---
-sidebar_position: 3
+sidebar_position: 7
 ---
 
-# Contact
+# Lead
 
 ## **FETCH QUERY**
 
 ```graphql
-fetchContact(
+fetchLead(
 filters: [FetchFilter]
 expression: String
 orderBy: [FetchOrderBy]
 customViewId: String
 pageNumber: Int
 recordsPerPage: Int
-): FetchContactResponse
+): FetchLeadResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type FetchContactResponse {
+type FetchLeadResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: [Contact]
+data: [Lead]
 }
 
-type Contact {
+type Lead {
 id: String
 recordStatus: String
 createdBy: String
@@ -50,27 +50,36 @@ shippingState: String
 shippingCountry: String
 shippingZipcode: String
 layoutId: String
-title: String
 firstName: String
-dob: String
-jobTitle: String
 email: String
-secondaryEmail: String
-skype: String
-twitter: String
-parentContactId: String
-organizationId: String
-reportingToId: String
-leadSource: String
-industryId: String
-relationshipTypeId: String
+company: String
+website: String
+statusId: String
+sourceId: String
+score: Int
+priority: String
+expectedRevenue: Int
+numberOfEmployees: Int
 description: String
+leadConverted: Boolean
+convertedOn: String
+convertedBy: String
+convertedContactId: String
+convertedDealId: String
+convertedOrganizationId: String
 }
 ```
 
 ### **Argument**
 
 ```graphql
+filters: [FetchFilter]
+expression: String
+orderBy: [FetchOrderBy]
+customViewId: String
+pageNumber: Int
+recordsPerPage: Int
+
 type FetchFilter {
 operator: String!
 name: String!
@@ -85,14 +94,18 @@ name: String!
 order: [FetchOrder]
 }
 
+scalar String
 
+scalar Int
+
+scalar Int
 ```
 
-### Simple Request: To Search Fetch Contact record
+### Simple Request: To Search Fetch Lead record
 
 ```graphql
 {
-  fetchContact
+  fetchLead
   {
     code 
     messageKey 
@@ -109,21 +122,17 @@ order: [FetchOrder]
 ```graphql
 {
   "data": {
-    "fetchContact": {
+    "fetchLead": {
       "code": 200,
-      "messageKey": "contact-search-success",
+      "messageKey": "lead-search-success",
       "data": [
         {
-          "id": "ff11c7d9-bec1-4476-87e9-f16f5ca76716",
-          "name": "Schmitt (Sample)"
+          "id": "fda1fa19-45ab-4604-9ec2-610014b1fc79",
+          "name": "Marshall (sample)"
         },
         {
-          "id": "fdcec74a-0cba-48e9-8a74-85095dd56ee9",
-          "name": "Chambers (Sample)"
-        },
-        {
-          "id": "fd4b9753-87bc-44e9-bee6-1349105d1aa1",
-          "name": "Campbell (Sample)"
+          "id": "7c3c97fc-22e8-4cbe-9a1e-2068edd63e04",
+          "name": "Martin (sample)"
         }
       ]
     }
@@ -135,7 +144,7 @@ order: [FetchOrder]
 
 ```graphql
 {
-  fetchContact(filters:[{name:"id",operator:"eq",value:"988baa5c-e547-485e-93be-f00daf9b8fb5"}])
+  fetchLead(filters:[{name:"id",operator:"eq",value:"fda1fa19-45ab-4604-9ec2-610014b1fc79"}])
   {
     code 
     messageKey 
@@ -150,13 +159,13 @@ order: [FetchOrder]
 ```graphql
 {
   "data": {
-    "fetchContact": {
+    "fetchLead": {
       "code": 200,
-      "messageKey": "contact-search-success",
+      "messageKey": "lead-search-success",
       "data": [
         {
-          "id": "988baa5c-e547-485e-93be-f00daf9b8fb5",
-          "name": "Sheppard (Sample)"
+          "id": "fda1fa19-45ab-4604-9ec2-610014b1fc79",
+          "name": "Marshall (sample)"
         }
       ]
     }
@@ -167,20 +176,20 @@ order: [FetchOrder]
 ## GET QUERY ##
 
 ```graphql
-getContact(
+getLead(
 id: String!
-): GetContactResponse
+): GetLeadResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type GetContactResponse {
+type GetLeadResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: Contact
+data: Lead
 }
 ```
 
@@ -195,7 +204,7 @@ id: String!
 ```graphql
 { 
 
-  getContact(id:"9119e15d-407b-44b5-9e6c-76acde9a289b") 
+  getLead(id:"fda1fa19-45ab-4604-9ec2-610014b1fc79") 
 
   {code message status data{id name ownerId}} 
 
@@ -207,13 +216,13 @@ id: String!
 ```graphql
 {
   "data": {
-    "getContact": {
+    "getLead": {
       "code": 200,
-      "message": "contact search successfully",
+      "message": "lead search successfully",
       "status": true,
       "data": {
-        "id": "9119e15d-407b-44b5-9e6c-76acde9a289b",
-        "name": "Davis (Sample)",
+        "id": "fda1fa19-45ab-4604-9ec2-610014b1fc79",
+        "name": "Marshall (sample)",
         "ownerId": "c680e0fd-7952-49af-9212-f677355240b3"
       }
     }
@@ -224,21 +233,21 @@ id: String!
 ## **UPDATE QUERY**
 
 ```graphql
-updateContact(
+updateLead(
 id: String!
-input: UpdateContactInput
-): SaveContactResponse
+input: UpdateLeadInput
+): SaveLeadResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type SaveContactResponse {
+type SaveLeadResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: Contact
+data: Lead
 errors: String
 }
 ```
@@ -247,15 +256,15 @@ errors: String
 
 ```graphql
 id: String!
-input: UpdateContactInput
+input: UpdateLeadInput
 ```
 
-### Sample Request: To Search update Contact record
+### Sample Request: To Search update Lead record
 
 ```graphql
 mutation { 
 
-  updateContact(id:"9119e15d-407b-44b5-9e6c-76acde9a289b" input:{name:"Davis"}) 
+  updateLead(id:"fda1fa19-45ab-4604-9ec2-610014b1fc79" input:{name:"Davis"}) 
 
   {code message status data{id name }} 
 
@@ -267,12 +276,12 @@ mutation {
 ```graphql
 {
   "data": {
-    "updateContact": {
+    "updateLead": {
       "code": 200,
-      "message": "contact updation successfully",
+      "message": "lead updation successfully",
       "status": true,
       "data": {
-        "id": "9119e15d-407b-44b5-9e6c-76acde9a289b",
+        "id": "fda1fa19-45ab-4604-9ec2-610014b1fc79",
         "name": "Davis"
       }
     }
@@ -283,20 +292,20 @@ mutation {
 ## CREATE QUERY
 
 ```graphql
-createContact(
-input: CreateContactInput
-): SaveContactResponse
+createLead(
+input: CreateLeadInput
+): SaveLeadResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type SaveContactResponse {
+type SaveLeadResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: Contact
+data: Lead
 errors: String
 }
 ```
@@ -304,15 +313,15 @@ errors: String
 ### **Argument**
 
 ```graphql
-input: CreateContactInput
+input: CreateLeadInput
 ```
 
-### Sample Request: To create Contact record
+### Sample Request: To create Lead record
 
 ```graphql
 mutation { 
 
-  createContact(input:{ name:"test01" ownerId:"7258c169-27eb-4b62-b5d9-9af889e3e5d6"}){code message status data{id name }} 
+  createLead(input:{ name:"test01" ownerId:"fda1fa19-45ab-4604-9ec2-610014b1fc79"}){code message status data{id name }} 
 
 }
 ```
@@ -322,12 +331,12 @@ mutation {
 ```graphql
 {
   "data": {
-    "createContact": {
+    "createLead": {
       "code": 200,
-      "message": "contact create successfully",
+      "message": "lead create successfully",
       "status": true,
       "data": {
-        "id": "b3167278-84e6-4724-93fb-1ac9c61d2f02",
+        "id": "6e788bc0-e8dd-49bb-b409-7cff4ee5cc3e",
         "name": "test01"
       }
     }
@@ -338,20 +347,20 @@ mutation {
 ## DELETE QUERY
 
 ```graphql
-deleteContact(
+deleteLead(
 id: String
-): SaveContactResponse
+): SaveLeadResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type SaveContactResponse {
+type SaveLeadResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: Contact
+data: Lead
 errors: String
 }
 ```
@@ -362,12 +371,12 @@ errors: String
 id: String
 ```
 
-### Sample Request: To delete Contact record
+### Sample Request: To delete Lead record
 
 ```graphql
 mutation { 
 
-  deleteContact(id:"9119e15d-407b-44b5-9e6c-76acde9a289b") 
+  deleteLead(id:"6e788bc0-e8dd-49bb-b409-7cff4ee5cc3e") 
 
   {code message status data{id name }} 
 
@@ -379,13 +388,13 @@ mutation {
 ```graphql
 {
   "data": {
-    "deleteContact": {
+    "deleteLead": {
       "code": 200,
-      "message": "contact delete successfully",
+      "message": "lead delete successfully",
       "status": true,
       "data": {
-        "id": "9119e15d-407b-44b5-9e6c-76acde9a289b",
-        "name": "Davis"
+        "id": "6e788bc0-e8dd-49bb-b409-7cff4ee5cc3e",
+        "name": "test01"
       }
     }
   }

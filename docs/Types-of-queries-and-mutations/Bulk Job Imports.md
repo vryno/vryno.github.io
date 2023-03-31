@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# **Bulk Import Jobs**
+# Bulk Import Jobs
 
 ## **QUERY**
 

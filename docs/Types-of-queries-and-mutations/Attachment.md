@@ -2,11 +2,10 @@
 sidebar_position: 2
 ---
 
-# * Attachment *
+# Attachment
 
 Use following query to get attachment
-This is a try
-Another Try
+
 ## **QUERY**
 
 ```graphql
