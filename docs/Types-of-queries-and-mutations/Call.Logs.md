@@ -1,34 +1,34 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 ---
 
-# Tasks
+# Call Logs
 
 ## **FETCH QUERY**
 
 ```graphql
-fetchTask(
+fetchCallLog(
 filters: [FetchFilter]
 expression: String
 orderBy: [FetchOrderBy]
 customViewId: String
 pageNumber: Int
 recordsPerPage: Int
-): FetchTaskResponse
+): FetchCallLogResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type FetchTaskResponse {
+type FetchCallLogResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: [Task]
+data: [CallLog]
 }
 
-type Task {
+type CallLog {
 id: String
 recordStatus: String
 createdBy: String
@@ -37,18 +37,19 @@ updatedBy: String
 updatedAt: String
 name: String
 ownerId: String
-relatedTo: [relatedTo]
-assigneeId: String
 statusId: String
+relatedTo: [relatedTo]
 closedBy: String
 closedAt: String
 layoutId: String
-dueDate: String
-reminder: String
-priorityId: String
-taskTypeId: String
+startedAt: String
+endedAt: String
+callPurpose: String
+callAgenda: String
+callResult: String
+outgoingCallStatus: String
+callType: String
 description: Document
-repeat: String
 }
 ```
 
@@ -83,11 +84,11 @@ scalar Int
 scalar Int
 ```
 
-### Simple Request: To Search Fetch Tasks record
+### Simple Request: To Search Fetch Call Logs record
 
 ```graphql
 {
-  fetchTask
+  fetchCallLog
   {
     code 
     messageKey 
@@ -104,21 +105,21 @@ scalar Int
 ```graphql
 {
   "data": {
-    "fetchTask": {
+    "fetchCallLog": {
       "code": 200,
-      "messageKey": "task-fetch-success",
+      "messageKey": "calllog-fetch-success",
       "data": [
         {
-          "id": "e285bd04-9639-4c18-a785-8fb70d4a62cf",
-          "name": "Task for Angela Garcia (Sample)"
+          "id": "f3ca5d51-97b0-47f0-9534-db57d469e2b1",
+          "name": "call Scheduled with Christina Bates (Sample)"
         },
         {
-          "id": "5cb2b811-ca4f-4a04-bca6-d85dca4bcc9c",
-          "name": "Task for Heather Lewis (Sample)"
+          "id": "62b9e51f-2e32-4a1e-bc23-73d5666a1d32",
+          "name": "call Scheduled with Jason Ward (Sample)"
         },
         {
-          "id": "333c2f45-ff61-4aae-8ba7-e323fe910072",
-          "name": "Task for Jonathan Williams (Sample)"
+          "id": "fb88e803-f03e-4959-9a9e-9d12cdc64931",
+          "name": "call Scheduled with Michael Morgan (Sample)"
         }
       ]
     }
@@ -129,7 +130,7 @@ scalar Int
 
 ```graphql
 {
-  fetchTask(filters:[{name:"id",operator:"eq",value:"333c2f45-ff61-4aae-8ba7-e323fe910072"}])
+  fetchCallLog(filters:[{name:"id",operator:"eq",value:"62b9e51f-2e32-4a1e-bc23-73d5666a1d32"}])
   {
     code 
     messageKey 
@@ -144,13 +145,13 @@ scalar Int
 ```graphql
 {
   "data": {
-    "fetchTask": {
+    "fetchCallLog": {
       "code": 200,
-      "messageKey": "task-fetch-success",
+      "messageKey": "calllog-fetch-success",
       "data": [
         {
-          "id": "333c2f45-ff61-4aae-8ba7-e323fe910072",
-          "name": "Task for Jonathan Williams (Sample)"
+          "id": "62b9e51f-2e32-4a1e-bc23-73d5666a1d32",
+          "name": "call Scheduled with Jason Ward (Sample)"
         }
       ]
     }
@@ -161,20 +162,20 @@ scalar Int
 ## GET QUERY ##
 
 ```graphql
-getTask(
+getCallLog(
 id: String!
-): GetTaskResponse
+): GetCallLogResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type GetTaskResponse {
+type GetCallLogResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: Task
+data: CallLog
 }
 
 ### **Argument**
@@ -183,12 +184,12 @@ data: Task
 id: String!
 ```
 
-### Sample query for Get tasks
+### Sample query for Get Call Logs
 
 ```graphql
 { 
 
-  getTask(id:"333c2f45-ff61-4aae-8ba7-e323fe910072") 
+  getCallLog(id:"62b9e51f-2e32-4a1e-bc23-73d5666a1d32") 
 
   {code message status data{id name ownerId}} 
 
@@ -200,13 +201,13 @@ id: String!
 ```graphql
 {
   "data": {
-    "getTask": {
+    "getCallLog": {
       "code": 200,
-      "message": "task fetch successfully",
+      "message": "callLog fetch successfully",
       "status": true,
       "data": {
-        "id": "333c2f45-ff61-4aae-8ba7-e323fe910072",
-        "name": "Task for Jonathan Williams (Sample)",
+        "id": "62b9e51f-2e32-4a1e-bc23-73d5666a1d32",
+        "name": "call Scheduled with Jason Ward (Sample)",
         "ownerId": "c680e0fd-7952-49af-9212-f677355240b3"
       }
     }
@@ -217,21 +218,21 @@ id: String!
 ## **UPDATE QUERY**
 
 ```graphql
-updateTask(
+updateCallLog(
 id: String!
-input: UpdateTaskInput
-): SaveTaskResponse
+input: UpdateCallLogInput
+): SaveCallLogResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type SaveTaskResponse {
+type SaveCallLogResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: Task
+data: CallLog
 errors: String
 }
 ```
@@ -240,15 +241,15 @@ errors: String
 
 ```graphql
 id: String!
-input: UpdateTaskInput
+input: UpdateCallLogInput
 ```
 
-### Sample Request: To Search update Task record
+### Sample Request: To Search update Call Logs record
 
 ```graphql
 mutation { 
 
-  updateTask(id:"333c2f45-ff61-4aae-8ba7-e323fe910072" input:{name:"morph"}) 
+  updateCallLog(id:"62b9e51f-2e32-4a1e-bc23-73d5666a1d32" input:{name:"Alfiya test"}) 
 
   {code message status data{id name }} 
 
@@ -260,13 +261,13 @@ mutation {
 ```graphql
 {
   "data": {
-    "updateTask": {
+    "updateCallLog": {
       "code": 200,
-      "message": "task updation successfully",
+      "message": "callLog updation successfully",
       "status": true,
       "data": {
-        "id": "333c2f45-ff61-4aae-8ba7-e323fe910072",
-        "name": "morph"
+        "id": "62b9e51f-2e32-4a1e-bc23-73d5666a1d32",
+        "name": "Alfiya test"
       }
     }
   }
@@ -276,20 +277,20 @@ mutation {
 ## CREATE QUERY
 
 ```graphql
-createTask(
-input: CreateTaskInput
-): SaveTaskResponse
+createCallLog(
+input: CreateCallLogInput
+): SaveCallLogResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type SaveTaskResponse {
+type SaveCallLogResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: Task
+data: CallLog
 errors: String
 }
 ```
@@ -297,15 +298,15 @@ errors: String
 ### **Argument**
 
 ```graphql
-input: CreateTaskInput
+input: CreateCallLogInput
 ```
 
-### Sample Request: To create Task record
+### Sample Request: To create Call Logs record
 
 ```graphql
 mutation { 
 
-  createTask(input:{statusId: "f4dc0ad6-5ad9-4ef8-8f2a-875360e9d2ee" name:"test01" ownerId:"7258c169-27eb-4b62-b5d9-9af889e3e5d6"}){code message status data{id name }} 
+  createTask(input:{statusId: "41d6eff0-d688-451f-8781-aa7f9ab46110" name:"test01" ownerId:"62b9e51f-2e32-4a1e-bc23-73d5666a1d32"}){code message status data{id name }} 
 
 }
 ```
@@ -320,7 +321,7 @@ mutation {
       "message": "task create successfully",
       "status": true,
       "data": {
-        "id": "1a8ff2e4-4edc-4c32-a127-23a5edfc3be3",
+        "id": "0129aa41-aa97-47a7-8a69-fafb3072b676",
         "name": "test01"
       }
     }
@@ -331,20 +332,20 @@ mutation {
 ## DELETE QUERY
 
 ```graphql
-deleteTask(
+deleteCallLog(
 id: String
-): SaveTaskResponse
+): SaveCallLogResponse
 ```
 
 ### **Type details**
 
 ```graphql
-type SaveTaskResponse {
+type SaveCallLogResponse {
 code: Int!
 message: String!
 status: Boolean!
 messageKey: String!
-data: Task
+data: CallLog
 errors: String
 }
 ```
@@ -355,14 +356,14 @@ errors: String
 id: String
 ```
 
-### Sample Request: To delete Task record
+### Sample Request: To delete Call Logs record
 
 ```graphql
 mutation { 
 
-  deleteTask(id:"1a8ff2e4-4edc-4c32-a127-23a5edfc3be3") 
+  deleteCallLog(id:"62b9e51f-2e32-4a1e-bc23-73d5666a1d32") 
 
-  {code message status data{id name }} 
+  {code message status data{id name}} 
 
 }
 ```
@@ -372,13 +373,13 @@ mutation {
 ```graphql
 {
   "data": {
-    "deleteTask": {
+    "deleteCallLog": {
       "code": 200,
-      "message": "task delete successfully",
+      "message": "callLog delete successfully",
       "status": true,
       "data": {
-        "id": "1a8ff2e4-4edc-4c32-a127-23a5edfc3be3",
-        "name": "test01"
+        "id": "62b9e51f-2e32-4a1e-bc23-73d5666a1d32",
+        "name": "Alfiya test"
       }
     }
   }
