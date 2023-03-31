@@ -4,6 +4,8 @@ sidebar_position: 2
 
 # * Attachment *
 
+Use following query to get attachment
+
 ## **QUERY**
 
 ```graphql
