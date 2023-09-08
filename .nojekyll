@@ -1,0 +1,3 @@
+import DocusaurusImageUrl from '@site/static/img/Vryno.png';
+
+<img src={DocusaurusImageUrl} />;
